@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FinTrack.Shared/FinTrack.Shared.csproj" />
+  <Project Path="FinTrack.UI/FinTrack.UI.csproj" />
+</Solution>
