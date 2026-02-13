@@ -34,16 +34,27 @@ public class DbRepository<T>(IDbContextFactory<AppDbContext> factory) where T : 
     public async Task UpdateAsync(T entity)
     {
         await using var context = await _factory.CreateDbContextAsync();
+
         context.Set<T>().Update(entity);
         await context.SaveChangesAsync();
     }
-    public async Task Delete(int id)
+
+    public async Task DeleteAsync(T entity)
     {
-        using var context = _factory.CreateDbContext();
-        var entity = await context.CostLogs.FindAsync(id);
+        await using var context = await _factory.CreateDbContextAsync();
+
+        context.Set<T>().Remove(entity);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteByIdAsync(object id)
+    {
+        await using var context = await _factory.CreateDbContextAsync();
+
+        var entity = await context.Set<T>().FindAsync(id);
         if (entity != null)
         {
-            context.CostLogs.Remove(entity);
+            context.Set<T>().Remove(entity);
             await context.SaveChangesAsync();
         }
     }
